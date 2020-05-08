@@ -85,5 +85,5 @@ fig.show()
 fig.savefig(
     os.path.join(results, "len_scale_comparison" + file_ext),
     bbox_inches="tight",
-    dpi=300,
+    dpi=150,
 )
