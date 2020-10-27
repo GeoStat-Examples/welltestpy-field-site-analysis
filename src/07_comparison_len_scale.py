@@ -8,10 +8,10 @@ from anaflow import theis, ext_theis_2d
 
 # plotting style
 plt.style.use("ggplot")
-plt.rcParams.update({"font.size": 12})
+plt.rcParams.update({"font.size": 16})
 
 # file extension of the saved plots
-file_ext = ".png"
+file_ext = ".pdf"
 
 # paths
 here = os.path.abspath(os.path.dirname(__file__))
@@ -45,7 +45,7 @@ for i, len_scale in enumerate(len_scales):
     head_ef.append(ext_theis_2d(time, rad, S, TG, var, len_scale, rate))
 time_ticks = []
 
-fig, ax = plt.subplots(figsize=[7, 5.5])
+fig, ax = plt.subplots(figsize=[11, 5])
 
 for i, step in enumerate(time):
     col = "C" + str(1)
@@ -59,31 +59,31 @@ for i, step in enumerate(time):
             label=label_ef,
             color="k",
             dashes=dashes(j + 1),
-            linewidth=1.5,
+            linewidth=2,
             alpha=0.5,
         )
     ax.plot(
-        rad, head_TG[i], label=label_TG, color=col, linestyle="--", linewidth=2
+        rad, head_TG[i], label=label_TG, color=col, linestyle="--", linewidth=3
     )
-    ax.plot(rad, head_TH[i], label=label_TH, color=col, linewidth=2)
+    ax.plot(rad, head_TH[i], label=label_TH, color=col, linewidth=3)
     text_v = (head_TG[i][-1] + head_TH[i][-1]) / 2
     ax.annotate(
         time_labels[i],
         xy=(rad[-1], text_v),
         xytext=(rad[-1] + 0.1, text_v),
-        arrowprops=dict(arrowstyle="-", color="black"),
+        arrowprops=dict(arrowstyle="-", color="black", linewidth=2),
         verticalalignment="center",
     )
-
 ax.set_xlabel("$r$ in [m]")
 ax.set_ylabel("$h$ in [m]")
-ax.legend(facecolor="w")
+ax.legend(loc="center left", bbox_to_anchor=(1.2, 0.5))
 ax.set_xlim([0, rad[-1]])
 ax.set_ylim([-2, 0])
+ax.locator_params(axis='y', nbins=5)
 fig.tight_layout()
-fig.show()
 fig.savefig(
     os.path.join(results, "len_scale_comparison" + file_ext),
     bbox_inches="tight",
     dpi=150,
 )
+fig.show()

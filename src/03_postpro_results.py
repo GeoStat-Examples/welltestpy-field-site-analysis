@@ -8,10 +8,10 @@ import matplotlib.pyplot as plt
 
 # ploting style
 plt.style.use("ggplot")
-plt.rcParams.update({"font.size": 12})
+plt.rcParams.update({"font.size": 16})
 
 # file extension of the saved plots
-file_ext = ".png"
+file_ext = ".pdf"
 
 # paths
 here = os.path.abspath(os.path.dirname(__file__))
@@ -98,73 +98,45 @@ def plot(site, root=None):
     testdict["mean"] = mean
     testdict["geo-mean"] = gmean
 
-    fig = plt.figure(dpi=75, figsize=[12, 4])
+    # decimal precision for ticks
+    tick_prec = [3, 1, 1, 3]
+    labels = ["{:03." + str(prec) + "f}" for prec in tick_prec]
+
+    fig = plt.figure(dpi=75, figsize=[10, 4])
     for j, var in enumerate(varnames):
-        if j == 0:
-            ax1 = fig.add_subplot(1, len(varnames), j + 1)
-            for i, res in enumerate(keys):
-                if i < 2:
-                    ax1.plot(
-                        testdict[res][j] * lin,
-                        label=res,
-                        linewidth=3,
-                        color="k",
-                        alpha=0.7,
-                        dashes=max(i - 1, 0) * (1, 1) + np.sign(i) * (3, 1),
-                    )
-                else:
-                    ax1.bar(
-                        0.125 + 0.25 * (i - 2),
-                        testdict[res][j],
-                        0.25,
-                        label=res,
-                        color="C" + str(i),
-                        alpha=0.8,
-                        linewidth=4 - np.sign(i),
-                    )
-            ax1.set_xlabel(
-                var + " = {:05.3f}".format(allsave[j]) + varunits[j],
-                fontsize=16,
-            )
-            ax1.set_ylabel("deviation", fontsize=16)
-            ax1.set_ylim([-0.1, max_y + 0.1])
-            ticks = ax1.get_yticks() * allsave[j]
-            ax1.set_yticklabels(np.round(ticks, 3))
-        else:
-            ax = fig.add_subplot(1, len(varnames), j + 1)  # , sharey=ax1)
-            for i, res in enumerate(keys):
-                if i < 2:
-                    ax.plot(
-                        testdict[res][j] * lin,
-                        label=res,
-                        linewidth=3,
-                        color="k",
-                        alpha=0.7,
-                        dashes=max(i - 1, 0) * (1, 1) + np.sign(i) * (3, 1),
-                    )
-                else:
-                    ax.bar(
-                        0.125 + 0.25 * (i - 2),
-                        testdict[res][j],
-                        0.25,
-                        label=res,
-                        color="C" + str(i),
-                        alpha=0.8,
-                        linewidth=4 - np.sign(i),
-                    )
-            ax.set_xlabel(
-                var + " = {:05.3f}".format(allsave[j]) + varunits[j],
-                fontsize=16,
-            )
-            ax.set_ylim([-0.1, max_y + 0.1])
-            ticks = ax.get_yticks() * allsave[j]
-            ax.set_yticklabels(np.round(ticks, 3))
+        ax = fig.add_subplot(1, len(varnames), j + 1)  # , sharey=ax1)
+        for i, res in enumerate(keys):
+            if i < 2:
+                ax.plot(
+                    testdict[res][j] * lin,
+                    label=res,
+                    linewidth=3,
+                    color="k",
+                    alpha=0.7,
+                    dashes=max(i - 1, 0) * (1, 1) + np.sign(i) * (3, 1),
+                )
+            else:
+                ax.bar(
+                    0.125 + 0.25 * (i - 2),
+                    testdict[res][j],
+                    0.25,
+                    label=res,
+                    color="C" + str(i),
+                    alpha=0.8,
+                    linewidth=4 - np.sign(i),
+                )
+        ax.set_ylim([-0.1, max_y + 0.1])
+        ticks = ax.get_yticks() * allsave[j]
+        ax.set_xlabel(
+            var + " = " + labels[j].format(allsave[j]) + varunits[j],
+            fontsize=18,
+        )
+        ax.set_yticklabels(np.round(ticks, tick_prec[j]))
 
         plt.xticks([], [])
         if j == 3:
             ax.legend(loc="upper left", handlelength=3, bbox_to_anchor=(1, 1))
-    fig.subplots_adjust(wspace=0.35, left=0.08)
-    plt.tight_layout()
+    fig.subplots_adjust(wspace=0.5, left=0.08)
     plt.show()
     fig.savefig(
         os.path.join(root, site + "_results" + file_ext), bbox_inches="tight"

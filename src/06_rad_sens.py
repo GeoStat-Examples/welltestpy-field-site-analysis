@@ -11,10 +11,10 @@ import anaflow as ana
 
 # plotting style
 plt.style.use("ggplot")
-plt.rcParams.update({"font.size": 12})
+plt.rcParams.update({"font.size": 16})
 
 # file extension of the saved plots
-file_ext = ".png"
+file_ext = ".pdf"
 
 # rank is the actual core-number, size is total number of cores
 rank = MPI.COMM_WORLD.Get_rank()
@@ -245,13 +245,13 @@ def post_all_sens(
         splnS = lin(radii, lnS_sen)
         spdum = lin(radii, dum_sen)
     radii2 = np.linspace(radii[0], radii[-1])
-    fig, ax0 = plt.subplots(figsize=[8, 3])
+    fig, ax0 = plt.subplots(figsize=[10, 4])
     dash_cnt = 1
     if not fix:
         ax0.plot(
             radii2,
             splnS(radii2),
-            linewidth=2,
+            linewidth=3,
             dashes=dashes(dash_cnt),
             label=r"$\ln(S)$",
         )
@@ -260,7 +260,7 @@ def post_all_sens(
         ax0.plot(
             radii2,
             spmu(radii2),
-            linewidth=2,
+            linewidth=3,
             dashes=dashes(dash_cnt),
             label=r"$\mu$",
         )
@@ -269,7 +269,7 @@ def post_all_sens(
         ax0.plot(
             radii2,
             spsig(radii2),
-            linewidth=2,
+            linewidth=3,
             dashes=dashes(dash_cnt),
             label=r"$\sigma^{2}$",
         )
@@ -277,22 +277,22 @@ def post_all_sens(
     ax0.plot(
         radii2,
         spcorr(radii2),
-        linewidth=2,
+        linewidth=3,
         dashes=dashes(dash_cnt),
         label=r"$\ell$",
     )
     dash_cnt += 1
     if dummy and plt_dummy:
-        ax0.plot(radii2, spdum(radii2), linewidth=2, label="dummy")
+        ax0.plot(radii2, spdum(radii2), linewidth=3, label="dummy")
     # ax0.legend()
     ax0.legend(loc="upper left", bbox_to_anchor=(1, 1))
 
     ax0.set_ylim([-0.1, 1.1])
     ax0.set_xlabel(r"Radius of observation $r$ in $[m]$")
-    if typ == "ST":
-        ax0.set_ylabel(r"FAST total-sensitivity")
-    else:
-        ax0.set_ylabel(r"FAST first-order-sensitivity")
+    # if typ == "ST":
+    #     ax0.set_ylabel(r"FAST total-sensitivity")
+    # else:
+    #     ax0.set_ylabel(r"FAST first-order-sensitivity")
     fig.tight_layout()
     fig.show()
     if save:
@@ -321,13 +321,13 @@ if __name__ == "__main__":
             print("{} on core {}/{} started".format(rad, rank + 1, abs(size)))
             est_sens(rad, fix=fix, dummy=dummy, fix_var=fix_var, harm=harm)
     else:  # plotting in serial (run this file)
-        post_all_sens(
-            fix=fix,
-            dummy=dummy,
-            fix_var=fix_var,
-            harm=harm,
-            plt_dummy=plt_dummy,
-        )
+        # post_all_sens(
+        #     fix=fix,
+        #     dummy=dummy,
+        #     fix_var=fix_var,
+        #     harm=harm,
+        #     plt_dummy=plt_dummy,
+        # )
         post_all_sens(
             smooth=smooth,
             fix=fix,
@@ -336,20 +336,20 @@ if __name__ == "__main__":
             harm=harm,
             plt_dummy=plt_dummy,
         )
-        post_all_sens(
-            typ="S1",
-            fix=fix,
-            dummy=dummy,
-            fix_var=fix_var,
-            harm=harm,
-            plt_dummy=plt_dummy,
-        )
-        post_all_sens(
-            typ="S1",
-            smooth=smooth,
-            fix=fix,
-            dummy=dummy,
-            fix_var=fix_var,
-            harm=harm,
-            plt_dummy=plt_dummy,
-        )
+        # post_all_sens(
+        #     typ="S1",
+        #     fix=fix,
+        #     dummy=dummy,
+        #     fix_var=fix_var,
+        #     harm=harm,
+        #     plt_dummy=plt_dummy,
+        # )
+        # post_all_sens(
+        #     typ="S1",
+        #     smooth=smooth,
+        #     fix=fix,
+        #     dummy=dummy,
+        #     fix_var=fix_var,
+        #     harm=harm,
+        #     plt_dummy=plt_dummy,
+        # )

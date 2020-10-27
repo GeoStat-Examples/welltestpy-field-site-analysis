@@ -6,10 +6,10 @@ import welltestpy as wtp
 import matplotlib.pyplot as plt
 
 # increase fontsize of plots
-plt.rcParams.update({"font.size": 12})
+plt.rcParams.update({"font.size": 16})
 
 # file extension of the saved plots
-file_ext = ".png"
+file_ext = ".pdf"
 
 # paths
 here = os.path.abspath(os.path.dirname(__file__))
@@ -23,9 +23,11 @@ campaigns = [
     os.path.join(data, "horkheim.cmp"),
 ]
 
+abbrev = {"lauswiesen": "LW", "horkheim": "HH"}
+
 for cmp_file in campaigns:
     cmp = wtp.load_campaign(cmp_file)
     fig1 = cmp.plot(title=False)
     fig2 = cmp.plot_wells().get_figure()  # here the axes are returned
-    fig1.savefig(os.path.join(results, cmp.name + "_tests" + file_ext))
-    fig2.savefig(os.path.join(results, cmp.name + "_wells" + file_ext))
+    fig1.savefig(os.path.join(results, abbrev[cmp.name] + "_tests" + file_ext))
+    fig2.savefig(os.path.join(results, abbrev[cmp.name] + "_wells" + file_ext))

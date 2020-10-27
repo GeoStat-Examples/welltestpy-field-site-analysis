@@ -6,7 +6,7 @@ from mpi4py import MPI
 import welltestpy as wtp
 import matplotlib.pyplot as plt
 
-plt.rcParams.update({"font.size": 12})
+plt.rcParams.update({"font.size": 16})
 
 # rank is the actual core-number, size is total number of cores
 rank = MPI.COMM_WORLD.Get_rank()
@@ -14,7 +14,7 @@ size = MPI.COMM_WORLD.Get_size()
 
 # saving estimation results in results
 here = os.path.abspath(os.path.dirname(__file__))
-results = os.path.normpath(os.path.join(here, "..", "results", "01_estimate"))
+results = os.path.normpath(os.path.join(here, "..", "results", "01_estimate2"))
 data = os.path.normpath(os.path.join(here, "..", "data"))
 os.makedirs(results, exist_ok=True)
 
@@ -47,6 +47,6 @@ for i, setup in enumerate(setups):
         "est", cmp, testinclude=testinclude, generate=True
     )
     # run the estimation
-    estimation.run(rep=6000, folder=os.path.join(results, well))
+    estimation.run(rep=2500, folder=os.path.join(results, well))
     # estimate the sensitivites
     estimation.sensitivity(folder=os.path.join(results, well))
