@@ -43,7 +43,7 @@ The data for the "Horkheimer Insel" field site was manually taken from:
 > University Tübingen; 1997. Ph.D. thesis.
 
 The pumping data from the "Lauswiesen" field site was kindly provided by
-[Dr. Carsten Leven-Pfister][Carsten_link]
+[Dr. Carsten Leven-Pfister](https://uni-tuebingen.de/fakultaeten/mathematisch-naturwissenschaftliche-fakultaet/fachbereiche/geowissenschaften/arbeitsgruppen/angewandte-geowissenschaften/angewandte-geowissenschaften-zag/hydrogeologie/hydrogeology/carsten-leven-pfister/)
 and is made available on a repository of the University of Tübingen:
 [Research Data Portal FDAT](https://fdat.escience.uni-tuebingen.de/portal/#/start)
 
@@ -94,5 +94,3 @@ You can contact us via <info@geostat-framework.org>.
 ## License
 
 MIT © 2020
-
-[Carsten_link]: https://uni-tuebingen.de/fakultaeten/mathematisch-naturwissenschaftliche-fakultaet/fachbereiche/geowissenschaften/arbeitsgruppen/angewandte-geowissenschaften/angewandte-geowissenschaften-zag/hydrogeologie/hydrogeology/carsten-leven-pfister/
