@@ -1,5 +1,6 @@
 [![GS-Frame](https://img.shields.io/badge/github-GeoStat_Framework-468a88?logo=github&style=flat)](https://github.com/GeoStat-Framework)
 [![Gitter](https://badges.gitter.im/GeoStat-Examples/community.svg)](https://gitter.im/GeoStat-Examples/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4139373.svg)](https://doi.org/10.5281/zenodo.4139373)
 
 # Pumping test analysis with welltestpy
 
@@ -20,7 +21,7 @@ and to analyse their sensitivities.
 - length scale of log-transmissivity
 - storage
 
-### Applied the methods
+### Applied methods
 
 The applied methods utilizing effecitive head solutions for the groundwater flow
 equation under a pumping test condition are described in:
