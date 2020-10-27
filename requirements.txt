@@ -1,4 +1,4 @@
-welltestpy==1.0.1
+welltestpy==1.0.2
 anaflow==1.0.1
 spotpy==1.5.9
 mpi4py==3.0.2

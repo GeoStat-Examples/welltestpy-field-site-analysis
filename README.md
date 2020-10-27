@@ -42,8 +42,10 @@ The data for the "Horkheimer Insel" field site was manually taken from:
 > experiments and stochastic modeling at different scales.
 > University Tübingen; 1997. Ph.D. thesis.
 
-The data for the "Lauswiesen" field site was kindly provided by
-[Dr. Carsten Leven-Pfister](Carsten_link).
+The pumping data from the "Lauswiesen" field site was kindly provided by
+[Dr. Carsten Leven-Pfister][Carsten_link]
+and is made available on a repository of the University of Tübingen:
+[Research Data Portal FDAT](https://fdat.escience.uni-tuebingen.de/portal/#/start)
 
 
 ## Structure
@@ -70,7 +72,7 @@ The workflow is organized by the following structure:
 Main Python dependencies are stored in `requirements.txt`:
 
 ```
-welltestpy==1.0.1
+welltestpy==1.0.2
 anaflow==1.0.1
 spotpy==1.5.9
 mpi4py==3.0.2
