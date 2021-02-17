@@ -18,40 +18,35 @@ file_ext = ".pdf"
 here = os.path.abspath(os.path.dirname(__file__))
 results = os.path.normpath(os.path.join(here, "..", "results", "01_estimate"))
 
+# well names at each site
+wells = {"hh": ["p05", "p40", "p42", "p44"], "lw": ["B2", "B3", "B4", "B5"]}
+
 
 def plot(site, root=None):
     """Plot estimation results."""
-    if root is None:
-        root = results
-    if site == "HH":
-        ptests = ["p05", "p40", "p42", "p44"]
-        estfile = glob.glob(
-            os.path.join(root, "all_hh", "*[0-9]_estimate.txt")
-        )
-    else:
-        ptests = ["B2", "B3", "B4", "B5"]
-        estfile = glob.glob(
-            os.path.join(root, "all_lw", "*[0-9]_estimate.txt")
-        )
+    root = results if root is None else root
+    site = site.lower()
+    ptests = wells[site]
+    estim = glob.glob(os.path.join(root, "all_" + site, "*[0-9]_estimate.txt"))
     testdict = {}
     # get the latest estimation-file
-    estfile.sort()
-    assert estfile, "No results found"
-    estfile = estfile[-1]
-    print(estfile)
+    estim.sort()
+    assert estim, "No results found"
+    estim = estim[-1]
+    print(estim)
     # load data from file
-    testdict["all"] = np.loadtxt(estfile)
+    testdict["all"] = np.loadtxt(estim)
 
     for p in ptests:
         # get the latest estimation-file
-        estfile = glob.glob(os.path.join(root, p, "*[0-9]_estimate.txt"))
+        estim = glob.glob(os.path.join(root, p, "*[0-9]_estimate.txt"))
         # sort by date
-        estfile.sort()
+        estim.sort()
         # take the newest one
-        estfile = estfile[-1]
-        print(estfile)
+        estim = estim[-1]
+        print(estim)
         # load data from file
-        testdict[p] = np.loadtxt(estfile)
+        testdict[p] = np.loadtxt(estim)
         # if var is 0 --> len_scale is 0
         if testdict[p][1] < 0.02:
             print(testdict[p][1])
@@ -66,10 +61,10 @@ def plot(site, root=None):
         r"$S_{all}$",
     ]
     varunits = [
-        r" $\left[\frac{m^2}{s}\right]$",
-        r" $\left[-\right]$",
-        r" $\left[m\right]$",
-        r" $\left[-\right]$",
+        r" $\frac{m^2}{s}$",
+        r"",
+        r" $m$",
+        r"",
     ]
 
     for res in testdict:
@@ -103,7 +98,7 @@ def plot(site, root=None):
     tick_prec = [3, 1, 1, 3]
     labels = ["{:03." + str(prec) + "f}" for prec in tick_prec]
 
-    fig = plt.figure(dpi=75, figsize=[10, 4])
+    fig = plt.figure(dpi=75, figsize=[9, 4])
     for j, var in enumerate(varnames):
         ax = fig.add_subplot(1, len(varnames), j + 1)  # , sharey=ax1)
         for i, res in enumerate(keys):
@@ -135,12 +130,14 @@ def plot(site, root=None):
         ax.set_yticklabels(np.round(ticks, tick_prec[j]))
 
         plt.xticks([], [])
-        if j == 3:
-            ax.legend(loc="upper left", handlelength=3, bbox_to_anchor=(1, 1))
-    fig.subplots_adjust(wspace=0.5, left=0.08)
-    plt.show()
+    legend = ax.get_legend_handles_labels()
+    fig.legend(*legend, loc="lower center", ncol=6, bbox_to_anchor=(0.5, 0))
+    fig.tight_layout()
+    fig.subplots_adjust(wspace=0.6, bottom=0.3)
+    fig.show()
     fig.savefig(
-        os.path.join(root, site + "_results" + file_ext), bbox_inches="tight"
+        os.path.join(root, site.upper() + "_results" + file_ext),
+        bbox_inches="tight",
     )
 
 
