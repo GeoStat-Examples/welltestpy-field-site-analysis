@@ -5,6 +5,7 @@ import glob
 import numpy as np
 from scipy.stats import gmean as gm
 import matplotlib.pyplot as plt
+from matplotlib.ticker import FormatStrFormatter
 
 # ploting style
 plt.style.use("ggplot")
@@ -12,7 +13,7 @@ plt.style.use("ggplot")
 plt.rcParams.update({"font.size": 16, "pdf.fonttype": 42, "ps.fonttype": 42})
 
 # file extension of the saved plots
-file_ext = ".pdf"
+file_ext = ".png"
 
 # paths
 here = os.path.abspath(os.path.dirname(__file__))
@@ -98,9 +99,9 @@ def plot(site, root=None):
     tick_prec = [3, 1, 1, 3]
     labels = ["{:03." + str(prec) + "f}" for prec in tick_prec]
 
-    fig = plt.figure(dpi=75, figsize=[9, 4])
+    fig = plt.figure(dpi=75, figsize=[7.5, 4])
     for j, var in enumerate(varnames):
-        ax = fig.add_subplot(1, len(varnames), j + 1)  # , sharey=ax1)
+        ax = fig.add_subplot(1, len(varnames), j + 1)
         for i, res in enumerate(keys):
             if i < 2:
                 ax.plot(
@@ -122,18 +123,27 @@ def plot(site, root=None):
                     linewidth=4 - np.sign(i),
                 )
         ax.set_ylim([-0.1, max_y + 0.1])
-        ticks = ax.get_yticks() * allsave[j]
         ax.set_xlabel(
             var + " = " + labels[j].format(allsave[j]) + varunits[j],
-            fontsize=18,
+            fontsize=16,
         )
-        ax.set_yticklabels(np.round(ticks, tick_prec[j]))
+        ax.set_xticks([])
+        ax.yaxis.set_major_formatter(FormatStrFormatter("%.1f"))
+        if j == 0:
+            ax.set_ylabel("multiples of $all$-result", fontsize=16)
+        else:
+            ax.set_yticklabels([])
 
-        plt.xticks([], [])
     legend = ax.get_legend_handles_labels()
-    fig.legend(*legend, loc="lower center", ncol=6, bbox_to_anchor=(0.5, 0))
+    fig.legend(
+        *legend,
+        loc="lower center",
+        ncol=6,
+        bbox_to_anchor=(0.5, 0),
+        handlelength=1
+    )
     fig.tight_layout()
-    fig.subplots_adjust(wspace=0.6, bottom=0.3)
+    fig.subplots_adjust(wspace=0.1, bottom=0.3)
     fig.show()
     fig.savefig(
         os.path.join(root, site.upper() + "_results" + file_ext),
