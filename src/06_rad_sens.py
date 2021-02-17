@@ -246,7 +246,7 @@ def post_all_sens(
         splnS = lin(radii, lnS_sen)
         spdum = lin(radii, dum_sen)
     radii2 = np.linspace(radii[0], radii[-1])
-    fig, ax0 = plt.subplots(figsize=[10, 4])
+    fig, ax0 = plt.subplots(figsize=[7.5, 4])
     dash_cnt = 1
     if not fix:
         ax0.plot(
@@ -286,7 +286,7 @@ def post_all_sens(
     if dummy and plt_dummy:
         ax0.plot(radii2, spdum(radii2), linewidth=3, label="dummy")
     # ax0.legend()
-    ax0.legend(loc="upper left", bbox_to_anchor=(1, 1))
+    ax0.legend(loc="upper center", ncol=4, bbox_to_anchor=(0.5, -0.3))
 
     ax0.set_ylim([-0.1, 1.1])
     ax0.set_xlabel(r"Radius of observation $r$ in $[m]$")
@@ -295,6 +295,7 @@ def post_all_sens(
     # else:
     #     ax0.set_ylabel(r"FAST first-order-sensitivity")
     fig.tight_layout()
+    fig.subplots_adjust(bottom=0.35)
     fig.show()
     if save:
         file_name = os.path.join(root, "Rad_plot_{}".format(typ))
@@ -330,6 +331,7 @@ if __name__ == "__main__":
         #     plt_dummy=plt_dummy,
         # )
         post_all_sens(
+            save=True,
             smooth=smooth,
             fix=fix,
             dummy=dummy,
