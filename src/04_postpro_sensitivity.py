@@ -8,7 +8,8 @@ import matplotlib.pyplot as plt
 
 # plotting style
 plt.style.use("ggplot")
-plt.rcParams.update({"font.size": 16})
+# increase fontsize of plots, prevent type 3 fonts in pdf output
+plt.rcParams.update({"font.size": 16, "pdf.fonttype": 42, "ps.fonttype": 42})
 
 # file extension of the saved plots
 file_ext = ".pdf"

@@ -6,7 +6,8 @@ from mpi4py import MPI
 import welltestpy as wtp
 import matplotlib.pyplot as plt
 
-plt.rcParams.update({"font.size": 16})
+# increase fontsize of plots, prevent type 3 fonts in pdf output
+plt.rcParams.update({"font.size": 16, "pdf.fonttype": 42, "ps.fonttype": 42})
 
 # rank is the actual core-number, size is total number of cores
 rank = MPI.COMM_WORLD.Get_rank()
