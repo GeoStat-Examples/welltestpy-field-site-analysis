@@ -246,7 +246,7 @@ def post_all_sens(
         splnS = lin(radii, lnS_sen)
         spdum = lin(radii, dum_sen)
     radii2 = np.linspace(radii[0], radii[-1])
-    fig, ax0 = plt.subplots(figsize=[7.5, 4])
+    fig, ax0 = plt.subplots(dpi=75, figsize=[7.5, 4])
     dash_cnt = 1
     if not fix:
         ax0.plot(
@@ -289,11 +289,13 @@ def post_all_sens(
     ax0.legend(loc="upper center", ncol=4, bbox_to_anchor=(0.5, -0.3))
 
     ax0.set_ylim([-0.1, 1.1])
-    ax0.set_xlabel(r"Radius of observation $r$ in $[m]$")
-    # if typ == "ST":
-    #     ax0.set_ylabel(r"FAST total-sensitivity")
-    # else:
-    #     ax0.set_ylabel(r"FAST first-order-sensitivity")
+    ax0.set_xlabel(r"Radius of observation $r$ in $[m]$", fontsize=16)
+    if typ == "ST":
+        ax0.set_ylabel("total sensitivity", fontsize=16)
+    else:
+        ax0.set_ylabel("first-order sensitivity", fontsize=16)
+    ax0.locator_params(axis="x", nbins=5)
+    ax0.locator_params(axis="y", nbins=7)
     fig.tight_layout()
     fig.subplots_adjust(bottom=0.35)
     fig.show()
@@ -323,15 +325,14 @@ if __name__ == "__main__":
             print("{} on core {}/{} started".format(rad, rank + 1, abs(size)))
             est_sens(rad, fix=fix, dummy=dummy, fix_var=fix_var, harm=harm)
     else:  # plotting in serial (run this file)
-        # post_all_sens(
-        #     fix=fix,
-        #     dummy=dummy,
-        #     fix_var=fix_var,
-        #     harm=harm,
-        #     plt_dummy=plt_dummy,
-        # )
         post_all_sens(
-            save=True,
+            fix=fix,
+            dummy=dummy,
+            fix_var=fix_var,
+            harm=harm,
+            plt_dummy=plt_dummy,
+        )
+        post_all_sens(
             smooth=smooth,
             fix=fix,
             dummy=dummy,
@@ -339,20 +340,20 @@ if __name__ == "__main__":
             harm=harm,
             plt_dummy=plt_dummy,
         )
-        # post_all_sens(
-        #     typ="S1",
-        #     fix=fix,
-        #     dummy=dummy,
-        #     fix_var=fix_var,
-        #     harm=harm,
-        #     plt_dummy=plt_dummy,
-        # )
-        # post_all_sens(
-        #     typ="S1",
-        #     smooth=smooth,
-        #     fix=fix,
-        #     dummy=dummy,
-        #     fix_var=fix_var,
-        #     harm=harm,
-        #     plt_dummy=plt_dummy,
-        # )
+        post_all_sens(
+            typ="S1",
+            fix=fix,
+            dummy=dummy,
+            fix_var=fix_var,
+            harm=harm,
+            plt_dummy=plt_dummy,
+        )
+        post_all_sens(
+            typ="S1",
+            smooth=smooth,
+            fix=fix,
+            dummy=dummy,
+            fix_var=fix_var,
+            harm=harm,
+            plt_dummy=plt_dummy,
+        )
