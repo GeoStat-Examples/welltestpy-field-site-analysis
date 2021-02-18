@@ -12,7 +12,7 @@ plt.style.use("ggplot")
 plt.rcParams.update({"font.size": 16, "pdf.fonttype": 42, "ps.fonttype": 42})
 
 # file extension of the saved plots
-file_ext = ".png"
+file_ext = ".pdf"
 
 # paths
 here = os.path.abspath(os.path.dirname(__file__))
@@ -130,7 +130,9 @@ def plot(site, root=None):
         loc="lower center",
         ncol=6,
         bbox_to_anchor=(0.5, 0),
-        handlelength=1
+        handlelength=1,
+        columnspacing=1,
+        handletextpad=0.5,
     )
     fig.tight_layout()
     fig.subplots_adjust(wspace=0.1, bottom=0.3)
