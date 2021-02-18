@@ -56,13 +56,13 @@ for i, setup in enumerate(setups):
         fittingplotname="fit.pdf",
         interactplotname="parainteract.pdf",
         estname="estimate.txt",
-        run=False,
+        # run=False,
     )
     # estimate the sensitivites
-    # estimation.sensitivity(
-    #     folder=os.path.join(results, well),
-    #     dbname="sens_db",
-    #     plotname="sens.pdf",
-    #     traceplotname="sens_trace.pdf",
-    #     sensname="sens_estimate.txt",
-    # )
+    estimation.sensitivity(
+        folder=os.path.join(results, well),
+        dbname="sens_db",
+        plotname="sens.pdf",
+        traceplotname="sens_trace.pdf",
+        sensname="sens_estimate.txt",
+    )
