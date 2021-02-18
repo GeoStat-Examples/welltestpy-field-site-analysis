@@ -46,7 +46,7 @@ for i, len_scale in enumerate(len_scales):
     head_ef.append(ext_theis_2d(time, rad, S, TG, var, len_scale, rate))
 time_ticks = []
 
-fig, ax = plt.subplots(figsize=[7.5, 6])
+fig, ax = plt.subplots(dpi=75, figsize=[7.5, 5.5])
 
 for i, step in enumerate(time):
     col = "C" + str(1)
@@ -75,17 +75,17 @@ for i, step in enumerate(time):
         arrowprops=dict(arrowstyle="-", color="black", linewidth=2),
         verticalalignment="center",
     )
-ax.set_xlabel("$r$ in [m]")
-ax.set_ylabel("$h$ in [m]")
+ax.set_xlabel("$r$ in [m]", fontsize=16)
+ax.set_ylabel("$h$ in [m]", fontsize=16)
 ax.set_xlim([0, rad[-1]])
 ax.set_ylim([-2, 0])
 ax.locator_params(axis="y", nbins=5)
-ax.legend(loc="lower center", ncol=3, bbox_to_anchor=(0.5, -0.45))
+ax.legend(loc="lower center", ncol=3, bbox_to_anchor=(0.5, -0.5))
 fig.tight_layout()
-fig.subplots_adjust(bottom=0.3)
+fig.subplots_adjust(bottom=0.31)
 fig.savefig(
     os.path.join(results, "len_scale_comparison" + file_ext),
     bbox_inches="tight",
-    dpi=150,
+    dpi=300,
 )
 fig.show()
