@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """Post-processing results."""
 import os
-import glob
 import numpy as np
 from scipy.stats import gmean as gm
 import matplotlib.pyplot as plt
@@ -28,23 +27,14 @@ def plot(site, root=None):
     root = results if root is None else root
     site = site.lower()
     ptests = wells[site]
-    estim = glob.glob(os.path.join(root, "all_" + site, "*[0-9]_estimate.txt"))
+    estim = os.path.join(root, "all_" + site, "estimate.txt")
     testdict = {}
-    # get the latest estimation-file
-    estim.sort()
-    assert estim, "No results found"
-    estim = estim[-1]
     print(estim)
     # load data from file
     testdict["all"] = np.loadtxt(estim)
 
     for p in ptests:
-        # get the latest estimation-file
-        estim = glob.glob(os.path.join(root, p, "*[0-9]_estimate.txt"))
-        # sort by date
-        estim.sort()
-        # take the newest one
-        estim = estim[-1]
+        estim = os.path.join(root, p, "estimate.txt")
         print(estim)
         # load data from file
         testdict[p] = np.loadtxt(estim)

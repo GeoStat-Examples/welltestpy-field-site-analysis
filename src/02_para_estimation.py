@@ -15,7 +15,7 @@ size = MPI.COMM_WORLD.Get_size()
 
 # saving estimation results in results
 here = os.path.abspath(os.path.dirname(__file__))
-results = os.path.normpath(os.path.join(here, "..", "results", "01_estimate2"))
+results = os.path.normpath(os.path.join(here, "..", "results", "01_estimate"))
 data = os.path.normpath(os.path.join(here, "..", "data"))
 os.makedirs(results, exist_ok=True)
 
@@ -48,6 +48,21 @@ for i, setup in enumerate(setups):
         "est", cmp, testinclude=testinclude, generate=True
     )
     # run the estimation
-    estimation.run(rep=2500, folder=os.path.join(results, well))
+    estimation.run(
+        rep=2500,
+        folder=os.path.join(results, well),
+        dbname="db",
+        traceplotname="paratrace.pdf",
+        fittingplotname="fit.pdf",
+        interactplotname="parainteract.pdf",
+        estname="estimate.txt",
+        run=False,
+    )
     # estimate the sensitivites
-    estimation.sensitivity(folder=os.path.join(results, well))
+    # estimation.sensitivity(
+    #     folder=os.path.join(results, well),
+    #     dbname="sens_db",
+    #     plotname="sens.pdf",
+    #     traceplotname="sens_trace.pdf",
+    #     sensname="sens_estimate.txt",
+    # )
