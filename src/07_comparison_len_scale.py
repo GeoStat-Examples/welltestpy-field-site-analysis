@@ -12,7 +12,7 @@ plt.style.use("ggplot")
 plt.rcParams.update({"font.size": 16, "pdf.fonttype": 42, "ps.fonttype": 42})
 
 # file extension of the saved plots
-file_ext = ".pdf"
+file_exts = [".pdf", ".png"]
 
 # paths
 here = os.path.abspath(os.path.dirname(__file__))
@@ -83,9 +83,10 @@ ax.locator_params(axis="y", nbins=5)
 ax.legend(loc="lower center", ncol=3, bbox_to_anchor=(0.5, -0.5))
 fig.tight_layout()
 fig.subplots_adjust(bottom=0.31)
-fig.savefig(
-    os.path.join(results, "len_scale_comparison" + file_ext),
-    bbox_inches="tight",
-    dpi=300,
-)
+for file_ext in file_exts:
+    fig.savefig(
+        os.path.join(results, "len_scale_comparison" + file_ext),
+        bbox_inches="tight",
+        dpi=300,
+    )
 fig.show()
