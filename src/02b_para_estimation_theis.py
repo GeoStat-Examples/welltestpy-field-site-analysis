@@ -15,7 +15,7 @@ size = MPI.COMM_WORLD.Get_size()
 
 # saving estimation results in results
 here = os.path.abspath(os.path.dirname(__file__))
-results = os.path.normpath(os.path.join(here, "..", "results", "02_estimate"))
+results = os.path.normpath(os.path.join(here, "..", "results", "01b_estimate"))
 data = os.path.normpath(os.path.join(here, "..", "data"))
 os.makedirs(results, exist_ok=True)
 
