@@ -29,24 +29,30 @@ def plot(site, root=None):
     ptests = wells[site]
     estim = os.path.join(root, "all_" + site, "estimate.txt")
     testdict = {}
-    print(estim)
+    # print(estim)
     # load data from file
     testdict["all"] = np.loadtxt(estim)
+    val_cnt = 4
+    if len(testdict["all"]) == 2:
+        val_cnt = 2
+        testdict["all"] = np.insert(testdict["all"], 1, [0, 0])
 
     for p in ptests:
         estim = os.path.join(root, p, "estimate.txt")
-        print(estim)
+        # print(estim)
         # load data from file
         testdict[p] = np.loadtxt(estim)
+        if len(testdict[p]) == 2:
+            testdict[p] = np.insert(testdict[p], 1, [0, 0])
         # if var is 0 --> len_scale is 0
         if testdict[p][1] < 0.02:
-            print(testdict[p][1])
+            # print(testdict[p][1])
             testdict[p][2] = 0
 
     lin = np.ones(2)
     keys = ["all", "mean"] + ptests  # +["mean"]#, "geo-mean"]
     varnames = [
-        r"$T^G_{all}$",
+        r"$T^G_{all}$" if val_cnt == 4 else r"$T_{all}$",
         r"$\sigma^2_{all}$",
         r"$\ell_{all}$",
         r"$S_{all}$",
@@ -57,10 +63,20 @@ def plot(site, root=None):
         r" $m$",
         r"",
     ]
-
+    ret1 = []  # T[_H]
+    ret2 = []  # S
     for res in testdict:
         testdict[res][0] = np.exp(testdict[res][0])
         testdict[res][3] = np.exp(testdict[res][3])
+
+    for res in keys:
+        if res == "mean":
+            continue
+        if val_cnt == 2:
+            ret1.append(testdict[res][0])
+        else:
+            ret1.append(testdict[res][0] * np.exp(-testdict[res][1] / 2))
+        ret2.append(testdict[res][-1])
 
     # rescale to common y-range
     max_y = 2.0
@@ -91,7 +107,9 @@ def plot(site, root=None):
 
     fig = plt.figure(dpi=75, figsize=[7.5, 4])
     for j, var in enumerate(varnames):
-        ax = fig.add_subplot(1, len(varnames), j + 1)
+        if val_cnt < 4 and j in [1, 2]:
+            continue
+        ax = fig.add_subplot(1, val_cnt, (min(j, 1) if val_cnt < 4 else j) + 1)
         for i, res in enumerate(keys):
             if i < 2:
                 ax.plot(
@@ -141,7 +159,51 @@ def plot(site, root=None):
         os.path.join(root, site.upper() + "_results" + file_ext),
         bbox_inches="tight",
     )
+    return ret1, ret2, ["all"] + ptests
 
 
-plot("HH")
-plot("LW")
+def compare_vars(
+    v1, v2, names, site, root, lab1="T_H", lab2="T", unit="$m^2/s$"
+):
+    """Compare variables."""
+    fig, ax = plt.subplots(dpi=75, figsize=[7.5, 4])
+    x = np.arange(len(names))
+    w = 0.4
+    ax.bar(x - w / 2, v1, w, alpha=0.8, label=f"${lab1}$ from ext. Theis")
+    ax.bar(x + w / 2, v2, w, alpha=0.8, label=f"${lab2}$ from Theis")
+    ax.set_xticks(x)
+    ax.set_xticklabels(names)
+    ax.set_ylabel(f"{lab2} in [{unit}]", fontsize=16)
+    ax.grid(axis="x", which="both")
+    legend = ax.get_legend_handles_labels()
+    fig.legend(
+        *legend,
+        loc="lower center",
+        ncol=2,
+        bbox_to_anchor=(0.5, 0),
+        handlelength=1,
+        columnspacing=1,
+        handletextpad=0.5,
+    )
+    fig.tight_layout()
+    fig.subplots_adjust(wspace=0.1, bottom=0.3)
+    fig.show()
+    fig.savefig(
+        os.path.join(root, site.upper() + "_compare_" + lab2 + file_ext),
+        bbox_inches="tight",
+    )
+    return fig
+
+
+root = os.path.normpath(os.path.join(here, "..", "results", "01_estimate"))
+TH_HH, S1_HH, names_HH = plot("HH", root)
+TH_LW, S1_LW, names_LW = plot("LW", root)
+root = os.path.normpath(os.path.join(here, "..", "results", "01b_estimate"))
+TG_HH, S2_HH, __ = plot("HH", root)
+TG_LW, S2_LW, __ = plot("LW", root)
+
+compare_vars(TH_HH, TG_HH, names_HH, "HH", root)
+compare_vars(S1_HH, S2_HH, names_HH, "HH", root, lab1="S", lab2="S", unit="-")
+
+compare_vars(TH_LW, TG_LW, names_LW, "LW", root)
+compare_vars(S1_LW, S2_LW, names_LW, "LW", root, lab1="S", lab2="S", unit="-")

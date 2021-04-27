@@ -60,16 +60,20 @@ The workflow is organized by the following structure:
 
 - `data/`
   - contains the campaign files for both sites in the `welltestpy` format
+  - contains time series for diagnostic plots
 - `src/` - contains the scripts to produce the results
   - `00_wtp_plot.py` - plotting well-constellation and campaign overviews
   - `01_est_run.sh` - bash file running `02_para_estimation.py` in parallel
+  - `01b_est_run.sh` - bash file running `02b_para_estimation.py` in parallel
   - `02_para_estimation.py` - estimate parameters of heterogeneity from the pumping tests
+  - `02b_para_estimation.py` - estimate equivalent parameters of homogeneity the pumping tests
   - `03_postpro_results.py` - plotting the estimation results for both sites
   - `04_postpro_sensitivity.py` - plotting the sensitivity results for both sites
   - `05_est_radial_sens.sh` - bash file running `06_rad_sens.py` in parallel
   - `06_rad_sens.py` - estimate parameter sensitivites depending on the radial distance
     to the pumping well. when run in serial, results will be plotted.
   - `07_comparison_len_scale.py` - generate comparison plot for different length scales
+  - `08_check_unconfined_effect.py` - generate diagnostic plots
 - `results/` - all produced results
 
 

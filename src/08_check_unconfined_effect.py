@@ -3,6 +3,7 @@
 import os
 import numpy as np
 from matplotlib import pyplot as plt
+
 # plotting style
 plt.style.use("ggplot")
 # increase fontsize of plots, prevent type 3 fonts in pdf output
